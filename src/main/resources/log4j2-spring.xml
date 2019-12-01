@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appenders>
+		<!-- 控制台输出 -->
+		<console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} %-5level %class %L %M - %msg%n" />
+		</console>
+		<RollingFile name="baseLog"
+			fileName="logs/baseLog.log" append="true"
+			filePattern="logs/baseLog-%d{MM-dd-yyyy}.log">
+			<PatternLayout charset="UTF-8"
+				pattern="%d{yyyy-MM-dd HH:mm:ss} %class{36}:%L %t %-5level %msg%xEx%n" />
+			<TimeBasedTriggeringPolicy modulate="true"
+				interval="1" />
+		</RollingFile>
+		<RollingFile name="business" fileName="logs/business/business.log"
+			append="true" filePattern="logs/business/business-%d{MM-dd-yyyy}.log">
+			<PatternLayout charset="UTF-8"
+				pattern="%d{yyyy-MM-dd HH:mm:ss} %class{36}:%L %t %-5level %msg%xEx%n" />
+			<TimeBasedTriggeringPolicy modulate="true"
+				interval="1" />
+		</RollingFile>
+	</appenders>
+
+	<!-- if you want close log out, please set level = "OFF" such as you don't 
+		want to out api log, you should set below. <logger name="apiLogger" level="OFF" 
+		additivity="false"> <appender-ref ref="apiLog"/> <appender-ref ref="Console" 
+		/> </logger> -->
+
+	<loggers>
+		<logger name="org.springframework" level="error"></logger>
+
+		<root level="debug">
+			<appender-ref ref="Console" />
+		</root>
+		<logger name="baseLog" level="trace" additivity="false">
+			<appender-ref ref="baseLog" />
+			<appender-ref ref="Console" />
+		</logger>
+		<logger name="business" level="trace" additivity="false">
+			<appender-ref ref="business" />
+			<appender-ref ref="Console" />
+		</logger>
+	</loggers>
+
+</configuration>
